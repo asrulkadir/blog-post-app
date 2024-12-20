@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
 import { postService } from '@/services/api/posts';
 import { IPost, IPostParams } from '@/types/post';
 import Cookies from 'js-cookie';
@@ -11,10 +16,16 @@ export const usePosts = (params?: IPostParams) => {
     setToken(Cookies.get('token') || null);
   }, []);
 
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ['posts', params],
-    queryFn: () => postService.getAll(params),
+    queryFn: ({ pageParam = 1 }) =>
+      postService.getAll({ ...params, page: pageParam }),
     enabled: !!token,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.data.length < 20) return undefined;
+      return allPages.length + 1;
+    },
+    initialPageParam: 1,
   });
 };
 

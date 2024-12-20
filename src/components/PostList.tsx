@@ -9,10 +9,9 @@ import { useState } from 'react';
 
 interface IPostList {
   data: IPost[];
-  loading: boolean;
 }
 
-const PostList = ({ data, loading }: IPostList) => {
+const PostList = ({ data }: IPostList) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editPostData, setEditPostData] = useState<IPost | null>(null);
   const { mutate: deletePost } = useDeletePost();
@@ -64,7 +63,6 @@ const PostList = ({ data, loading }: IPostList) => {
           xl: 4,
           xxl: 4,
         }}
-        loading={loading}
         dataSource={data}
         renderItem={(item) => (
           <List.Item>

@@ -1,20 +1,36 @@
-import { Button, Input, Layout, message } from 'antd';
+import { Button, Input, Layout, message, Spin } from 'antd';
 import { useCreatePost, usePosts } from '@/hooks/usePosts';
 import PostList from '@/components/PostList';
 import ModalWelcome from '@/components/ModalWelcome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalAddEditPost from '@/components/ModalAddEditPost';
 import { IPost } from '@/types/post';
 import Header from '@/components/Header';
+import { useInView } from 'react-intersection-observer';
 
 const { Content } = Layout;
 const { Search } = Input;
 
 export default function Home() {
+  const { ref, inView } = useInView();
   const [search, setSearch] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { data: response, isLoading } = usePosts({ title: search });
+  const {
+    data: response,
+    fetchNextPage,
+    isFetchingNextPage,
+    isPending: isLoading,
+  } = usePosts({
+    title: search,
+    per_page: 20,
+  });
   const { mutate: createPost, isPending } = useCreatePost();
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
 
   const onSearch = (value: string) => {
     setSearch(value);
@@ -53,7 +69,15 @@ export default function Home() {
           />
         </div>
         <div>
-          <PostList data={response?.data ?? []} loading={isLoading} />
+          <div className="flex justify-center">{isLoading && <Spin />}</div>
+          {response?.pages.map((page, index) => (
+            <div key={index}>
+              <PostList data={page.data} />
+            </div>
+          ))}
+          <div ref={ref} className="flex justify-center">
+            {isFetchingNextPage && <Spin />}
+          </div>
         </div>
       </Content>
       <ModalAddEditPost
