@@ -20,11 +20,21 @@ export default function Home() {
     fetchNextPage,
     isFetchingNextPage,
     isPending: isLoading,
+    isError,
+    error,
   } = usePosts({
     title: search,
     per_page: 20,
   });
   const { mutate: createPost, isPending } = useCreatePost();
+
+  useEffect(() => {
+    if (isError) {
+      message.error(
+        (error as any)?.response?.data?.message ?? 'Failed to fetch data',
+      );
+    }
+  }, [error, isError]);
 
   useEffect(() => {
     if (inView) {
@@ -86,7 +96,7 @@ export default function Home() {
         onSubmit={handleSubmit}
         loading={isPending}
       />
-      <ModalWelcome />
+      <ModalWelcome reopen={isError} />
     </Layout>
   );
 }

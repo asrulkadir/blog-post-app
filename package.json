@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.62.8",
@@ -21,14 +23,17 @@
     "react-intersection-observer": "^9.14.0"
   },
   "devDependencies": {
+    "@types/cypress": "^1.1.6",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "cypress": "^13.17.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "13.5.7",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-cypress": "^3.6.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "husky": "^9.1.7",

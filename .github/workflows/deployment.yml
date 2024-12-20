@@ -24,8 +24,8 @@ jobs:
     - name: Lint code
       run: npm run lint
 
-    # - name: Testing
-    #   run: npm run test
+    - name: Cypress run
+      run: npm run cypress:run
 
     - name: Build app
       run: npm run build

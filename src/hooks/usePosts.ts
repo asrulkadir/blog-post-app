@@ -16,17 +16,32 @@ export const usePosts = (params?: IPostParams) => {
     setToken(Cookies.get('token') || null);
   }, []);
 
-  return useInfiniteQuery({
+  const queryResult = useInfiniteQuery({
     queryKey: ['posts', params],
     queryFn: ({ pageParam = 1 }) =>
       postService.getAll({ ...params, page: pageParam }),
-    enabled: !!token,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.data.length < 20) return undefined;
       return allPages.length + 1;
     },
     initialPageParam: 1,
+    enabled: !!token,
   });
+
+  if (!token) {
+    return {
+      data: null,
+      isLoading: false,
+      isError: false,
+      fetchNextPage: () => {},
+      hasNextPage: false,
+      isFetchingNextPage: false,
+      isPending: false,
+      error: null,
+    };
+  }
+
+  return queryResult;
 };
 
 export const usePostById = (id: number | string) => {

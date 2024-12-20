@@ -7,7 +7,11 @@ type FieldType = {
   token?: string;
 };
 
-const ModalWelcome = () => {
+interface IProps {
+  reopen?: boolean;
+}
+
+const ModalWelcome = ({ reopen }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -38,7 +42,7 @@ const ModalWelcome = () => {
           Welcome to Blog Post APP, please input your name and gorest API token
         </p>
       }
-      open={isModalOpen}
+      open={isModalOpen || reopen}
       onOk={handleOk}
       closable={false}
       footer={null}
@@ -66,6 +70,14 @@ const ModalWelcome = () => {
         >
           <Input />
         </Form.Item>
+
+        {reopen && (
+          <Form.Item>
+            <p className="text-center text-red-500">
+              Please input your token again
+            </p>
+          </Form.Item>
+        )}
 
         <Form.Item className="flex justify-end">
           <Button type="primary" htmlType="submit">
