@@ -39,7 +39,6 @@ jobs:
         port: ${{ secrets.VPS_PORT }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          rsync -avz --delete --exclude 'node_modules' --exclude '.git' $GITHUB_WORKSPACE/ ~/blog-post-app/
           cd ~/blog-post-app
           npm install --production
           pm2 stop blog-post-app || true
