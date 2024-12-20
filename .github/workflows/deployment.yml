@@ -1,0 +1,48 @@
+name: CI/CD for Next.js Blog Post App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 'lts/*'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Testing
+      run: npm run test
+
+    - name: Build app
+      run: npm run build
+
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          cd ~/blog-post-app
+          mkdir -p ~/blog-post-app
+          rsync -avz --delete --exclude 'node_modules' --exclude '.git' ./ ~/blog-post-app/
+          cd ~/blog-post-app
+          npm install --production
+          pm2 stop blog-post-app || true
+          pm2 start npm --name "blog-post-app" -- start -- -p 3006
