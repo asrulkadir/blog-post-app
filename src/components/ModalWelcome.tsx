@@ -35,7 +35,7 @@ const ModalWelcome = () => {
     <Modal
       title={
         <p className="mb-4 text-center font-semibold">
-          Welcome to Blog Post APP, please input your name and token
+          Welcome to Blog Post APP, please input your name and gorest API token
         </p>
       }
       open={isModalOpen}
