@@ -25,7 +25,11 @@ jobs:
       run: npm run lint
 
     - name: Cypress run
-      run: npm run cypress:run
+      uses: cypress-io/github-action@v3
+      with:
+        start: npm run start
+        wait-on: 'http://localhost:3000'
+        command-prefix: 'npm run cypress:run'
 
     - name: Build app
       run: npm run build
