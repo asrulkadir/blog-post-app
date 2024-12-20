@@ -35,3 +35,18 @@
 //     }
 //   }
 // }
+
+declare namespace Cypress {
+  interface Chainable {
+    auth(): Chainable;
+  }
+}
+
+Cypress.Commands.add('auth', () => {
+  cy.visit('/');
+  cy.get('[placeholder="Please input your name"]').type('beddu');
+  cy.get('[placeholder="Please input your token"]').type(
+    Cypress.env('gorest_token'),
+  );
+  cy.get('button').contains('Submit').click();
+});

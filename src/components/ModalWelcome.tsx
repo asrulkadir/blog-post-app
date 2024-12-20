@@ -60,7 +60,7 @@ const ModalWelcome = ({ reopen }: IProps) => {
           name="name"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
-          <Input />
+          <Input placeholder="Please input your name" />
         </Form.Item>
 
         <Form.Item<FieldType>
@@ -68,7 +68,7 @@ const ModalWelcome = ({ reopen }: IProps) => {
           name="token"
           rules={[{ required: true, message: 'Please input your token!' }]}
         >
-          <Input />
+          <Input placeholder="Please input your token" />
         </Form.Item>
 
         {reopen && (
