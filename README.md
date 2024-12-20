@@ -36,4 +36,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Deployment
 
-You can view the deployed application at [https://your-deployment-link.vercel.app](https://your-deployment-link.vercel.app).
+You can view the deployed application at [https://blog-post-app.asrulkadir.com](https://blog-post-app.asrulkadir.com).
