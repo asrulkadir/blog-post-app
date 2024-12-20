@@ -27,7 +27,7 @@ jobs:
     - name: Set up Cypress environment variables
       run: |
         echo '{
-          "gorest_token": ${{ secrets.GOREST_TOKEN }},
+          "gorest_token": ${{ secrets.GOREST_TOKEN }}
         }' > cypress.env.json
 
     - name: Cypress run
