@@ -40,6 +40,8 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd ~/blog-post-app
-          npm install --production
+          git pull origin
+          npm install
+          npm run build
           pm2 stop blog-post-app || true
           pm2 start npm --name "blog-post-app" -- start -- -p 3006
