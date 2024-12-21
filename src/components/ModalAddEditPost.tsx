@@ -30,6 +30,7 @@ const ModalAddEditPost = ({
 
   const handleFinish = (values: IPost) => {
     onSubmit(values);
+    form.resetFields();
   };
 
   return (

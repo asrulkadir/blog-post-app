@@ -39,6 +39,7 @@
 declare namespace Cypress {
   interface Chainable {
     auth(): Chainable;
+    setupIntercepts(): Chainable;
   }
 }
 
@@ -49,4 +50,18 @@ Cypress.Commands.add('auth', () => {
     Cypress.env('gorest_token'),
   );
   cy.get('button').contains('Submit').click();
+});
+
+Cypress.Commands.add('setupIntercepts', () => {
+  cy.intercept('POST', 'https://gorest.co.in/public/v2/posts').as('addPost');
+  cy.intercept('PUT', 'https://gorest.co.in/public/v2/posts/*').as(
+    'updatePost',
+  );
+  cy.intercept('DELETE', 'https://gorest.co.in/public/v2/posts/*').as(
+    'deletePost',
+  );
+  cy.intercept('GET', 'https://gorest.co.in/public/v2/posts?*').as('getPosts');
+  cy.intercept('GET', 'https://gorest.co.in/public/v2/posts/*').as(
+    'getPostById',
+  );
 });

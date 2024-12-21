@@ -1,6 +1,11 @@
 import { IPost } from '@/types/post';
-import { List, Card, Tooltip, Popconfirm, message } from 'antd';
-import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { List, Card, Tooltip, Popconfirm, message, Spin } from 'antd';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import { truncateText } from '@/utils/helpers/truncateText';
 import Link from 'next/link';
 import { useDeletePost, useUpdatePost } from '@/hooks/usePosts';
@@ -14,16 +19,20 @@ interface IPostList {
 const PostList = ({ data }: IPostList) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editPostData, setEditPostData] = useState<IPost | null>(null);
-  const { mutate: deletePost } = useDeletePost();
+  const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
+  const { mutate: deletePost, isPending: isPendingDelete } = useDeletePost();
   const { mutate: updatePost, isPending } = useUpdatePost();
 
   const handleDelete = (id: number) => {
+    setDeletingPostId(id);
     deletePost(id, {
       onSuccess: () => {
         message.success('Post deleted successfully');
+        setDeletingPostId(null);
       },
       onError: () => {
         message.error('Failed to delete post');
+        setDeletingPostId(null);
       },
     });
   };
@@ -89,7 +98,11 @@ const PostList = ({ data }: IPostList) => {
                     okText="Yes"
                     cancelText="No"
                   >
-                    <DeleteOutlined className="text-red-500" />
+                    {isPendingDelete && deletingPostId === item.id ? (
+                      <Spin indicator={<LoadingOutlined spin />} size="small" />
+                    ) : (
+                      <DeleteOutlined className="text-red-500" />
+                    )}
                   </Popconfirm>
                 </Tooltip>,
               ]}
