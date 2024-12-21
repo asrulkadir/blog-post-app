@@ -34,6 +34,28 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+### Testing on your local using cypress
+create cypress.env.json file and fill your gorest token:
+you can get your token after you register [here](https://gorest.co.in/)
+
+```bash
+{
+  "gorest_token": "your gorest token"
+}
+```
+
+open cypress:
+
+```bash
+npm run cypress:open
+```
+
+run cypress:
+
+```bash
+npm run cypress:run
+```
+
 ### Deployment
 
 You can view the deployed application at [https://blog-post-app.asrulkadir.com](https://blog-post-app.asrulkadir.com).
