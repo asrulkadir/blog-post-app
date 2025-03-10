@@ -21,7 +21,7 @@ describe('Blog Post APP Automation Test', () => {
 
     // add post
     cy.get('button').contains('Add Post').click();
-    cy.get('[placeholder="Enter user id"]').type('7594128');
+    cy.get('[placeholder="Enter user id"]').type('7374239');
     cy.get('[placeholder="Enter post title"]').type('Beddu 123');
     cy.get('[placeholder="Enter post body"]').type(
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptate quos. Quisquam, voluptate quos.',
